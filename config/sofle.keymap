@@ -18,14 +18,19 @@
 
 &right_encoder { steps = <60>; };
 
+// Responsive Tap-Hold tuning for Neovim Ctrl/Esc
+&mt {
+    tapping-term-ms = <175>;
+    quick-tap-ms = <150>;
+    flavor = "balanced";
+};
+
 #define BASE 0
 #define LOWER 1
 #define RAISE 2
 #define ADJUST 3
 
 / {
-    // Activate ADJUST layer by pressing raise and lower
-
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
@@ -38,17 +43,21 @@
     combos {
         compatible = "zmk,combos";
 
+        // J + K = Escape (instant Normal mode from anywhere)
+        vim_esc {
+            bindings = <&kp ESCAPE>;
+            key-positions = <31 32>;
+            timeout-ms = <40>;
+        };
+
+        // K + L = Backspace (right home row)
         backspace {
             bindings = <&kp BACKSPACE>;
-            key-positions = <32 31>;
+            key-positions = <32 33>;
+            timeout-ms = <40>;
         };
 
-        esc {
-            bindings = <&kp ESCAPE>;
-            key-positions = <25 41>;
-        };
-
-        // Press Left Shift + Right Shift together for CAPS_WORD (great for SQL / SNAKE_CASE)
+        // Left Shift + Right Shift = CAPS_WORD (for SQL / SNAKE_CASE)
         caps_word_combo {
             bindings = <&caps>;
             key-positions = <24 49>;
@@ -63,14 +72,14 @@
             bindings = <&kp SV_MINUS &kp SV_GT>;
         };
 
-        // => (Arrow functions / Scala / JS)
+        // => (Arrow functions / JS / Scala)
         arrow_fat: arrow_fat {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings = <&kp SV_EQUAL &kp SV_GT>;
         };
 
-        // != (SQL / Python not-equal)
+        // != (SQL / Python / Lua inequality)
         not_equal: not_equal {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -93,19 +102,22 @@
         default_layer {
             display-name = "Base";
 
+            // Neovim upgrades:
+            // - Home-row pinky (Caps position) = Hold for CTRL, Tap for ESC
+            // - J+K combo = ESC | K+L combo = BSPC
             // ------------------------------------------------------------------------------------------------------------
             // |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   +   |
             // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   Å   |
-            // | SHIFT |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   Ö   |   Ä   |
-            // | CTRL  |  Z  |  X  |  C   |  V   |  B   |  MUTE  |  | PLAY  |  N   |  M    |  ,    |  .   |   -   | SHIFT |
+            // |CTL/ESC|  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   Ö   |   Ä   |
+            // | SHIFT |  Z  |  X  |  C   |  V   |  B   |  MUTE  |  | PLAY  |  N   |  M    |  ,    |  .   |   -   | SHIFT |
             //               | CTRL| ALT  | CMD  | LOWER|  SPACE |  | ENTER | RAISE| CMD   | ALT   | BSPC |
 
             bindings = <
-&gresc            &kp SV_N1  &kp SV_N2  &kp SV_N3  &kp SV_N4  &kp SV_N5                                     &kp SV_N6  &kp SV_N7  &kp SV_N8     &kp SV_N9    &kp SV_N0        &kp SV_PLUS
-&kp TAB           &kp SV_Q   &kp SV_W   &kp SV_E   &kp SV_R   &kp SV_T                                      &kp SV_Y   &kp SV_U   &kp SV_I      &kp SV_O     &kp SV_P         &kp SV_A_RING
-&kp LEFT_SHIFT    &kp SV_A   &kp SV_S   &kp SV_D   &kp SV_F   &kp SV_G                                      &kp SV_H   &kp SV_J   &kp SV_K      &kp SV_L     &kp SV_O_UMLAUT  &kp SV_A_UMLAUT
-&kp LEFT_CONTROL  &kp SV_Z   &kp SV_X   &kp SV_C   &kp SV_V   &kp SV_B   &kp C_MUTE    &kp C_PLAY_PAUSE     &kp SV_N   &kp SV_M   &kp SV_COMMA  &kp SV_DOT   &kp SV_MINUS     &kp RSHFT
-                             &kp LCTRL  &kp LALT   &kp LGUI   &mo LOWER  &kp SPACE     &kp ENTER            &mo RAISE  &kp RGUI   &kp RALT      &kp BSPC
+&gresc          &kp SV_N1  &kp SV_N2  &kp SV_N3  &kp SV_N4  &kp SV_N5                                     &kp SV_N6  &kp SV_N7  &kp SV_N8     &kp SV_N9    &kp SV_N0        &kp SV_PLUS
+&kp TAB         &kp SV_Q   &kp SV_W   &kp SV_E   &kp SV_R   &kp SV_T                                      &kp SV_Y   &kp SV_U   &kp SV_I      &kp SV_O     &kp SV_P         &kp SV_A_RING
+&mt LCTRL ESC   &kp SV_A   &kp SV_S   &kp SV_D   &kp SV_F   &kp SV_G                                      &kp SV_H   &kp SV_J   &kp SV_K      &kp SV_L     &kp SV_O_UMLAUT  &kp SV_A_UMLAUT
+&kp LEFT_SHIFT  &kp SV_Z   &kp SV_X   &kp SV_C   &kp SV_V   &kp SV_B   &kp C_MUTE    &kp C_PLAY_PAUSE     &kp SV_N   &kp SV_M   &kp SV_COMMA  &kp SV_DOT   &kp SV_MINUS     &kp RSHFT
+                           &kp LCTRL  &kp LALT   &kp LGUI   &mo LOWER  &kp SPACE     &kp ENTER            &mo RAISE  &kp RGUI   &kp RALT      &kp BSPC
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp UP DOWN>;
@@ -114,19 +126,21 @@
         lower_layer {
             display-name = "Symbols";
 
-            // Tuned for macOS Swedish layout (@, $, ~, \, |, {, }, [, ] use macOS Option combos)
+            // Tuned for macOS Swedish + Neovim:
+            // - Easy ':' (COLON) and '/' (FSLH) on home row for :w / :q / search
+            // - macOS Option combos for @, $, ~, \, |, {, }, [, ]
             // ------------------------------------------------------------------------------------------------------------
             // |  §    |  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
             // |  `    |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |  F12  |
-            // |  ~    |  =  |  -  |  +   |  /   |  \   |                   |  |   |  {    |  }    |  [   |   ]   |   '   |
-            // |       |  <  |  >  |  ;   |  :   |  "   |        |  |       |  _   |  ?    |  <    |  >   |   /   |  DEL  |
+            // |  ~    |  =  |  -  |  +   |  /   |  \   |                   |  |   |  {    |  }    |  [   |   ]   |   :   |
+            // |       |  <  |  >  |  ;   |  :   |  "   |        |  |       |  _   |  ?    |  <    |  >   |   '   |  DEL  |
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
 &kp GRAVE      &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                          &kp F6         &kp F7         &kp F8         &kp F9         &kp F10       &kp F11
 &kp SV_GRAVE   &kp SV_EXCL   &kp LA(N2)    &kp SV_HASH   &kp LA(N4)    &kp SV_PRCNT                    &kp SV_CARET   &kp SV_AMPS    &kp SV_ASTRK   &kp SV_LPAR    &kp SV_RPAR   &kp F12
-&kp LA(RBKT)   &kp SV_EQUAL  &kp SV_MINUS  &kp SV_PLUS   &kp SV_FSLH   &kp LA(LS(N7))                  &kp LA(N7)     &kp LA(LS(N8)) &kp LA(LS(N9)) &kp LA(N8)     &kp LA(N9)    &kp SV_SQT
-&trans         &kp SV_LT     &kp SV_GT     &kp SV_SEMI   &kp SV_COLON  &kp SV_DQT    &trans    &trans  &kp SV_UNDER   &kp SV_QMARK   &kp SV_LT      &kp SV_GT      &kp SV_FSLH   &kp DELETE
+&kp LA(RBKT)   &kp SV_EQUAL  &kp SV_MINUS  &kp SV_PLUS   &kp SV_FSLH   &kp LA(LS(N7))                  &kp LA(N7)     &kp LA(LS(N8)) &kp LA(LS(N9)) &kp LA(N8)     &kp LA(N9)    &kp SV_COLON
+&trans         &kp SV_LT     &kp SV_GT     &kp SV_SEMI   &kp SV_COLON  &kp SV_DQT    &trans    &trans  &kp SV_UNDER   &kp SV_QMARK   &kp SV_LT      &kp SV_GT      &kp SV_SQT    &kp DELETE
                              &trans        &trans        &trans        &trans        &trans    &trans  &trans         &trans         &trans         &trans
             >;
 
@@ -139,20 +153,20 @@
             display-name = "NavNum";
 
             // Left hand: Data-entry Numpad + macOS Undo/Cut/Copy/Paste
-            // Right hand: Word/Line jumps + Vim-style Arrows + Coder macros (->, =>, !=)
+            // Right hand: True Vim H/J/K/L arrows + Word/Line jumps + Coder macros (->, =>, !=)
             // ------------------------------------------------------------------------------------------------------------
             // |       |  =  |  /  |  *   |  -   |  +   |                   |  !=  |  ->   |  =>   |      |       |       |
-            // |       |  ,  |  7  |  8   |  9   |  .   |                   | PGUP | WRD<- |   ^   | WRD->| HOME  |  END  |
-            // |       |  0  |  4  |  5   |  6   | CAPS |                   | PGDN |  <-   |   v   |  ->  |  DEL  | BKSPC |
+            // |       |  ,  |  7  |  8   |  9   |  .   |                   | HOME | PGUP  | PGDN  | END  | WRD<- | WRD-> |
+            // |       |  0  |  4  |  5   |  6   | CAPS |                   |  <-  |   v   |   ^   |  ->  |  DEL  | BKSPC |
             // |       | UNDO|  1  |  2   |  3   | COPY |        |  |       | PASTE|  CUT  |       |      |       |       |
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&trans  &kp SV_EQUAL  &kp SV_FSLH  &kp SV_ASTRK  &kp SV_MINUS  &kp SV_PLUS                     &not_equal  &arrow_thin   &arrow_fat  &trans         &trans        &trans
-&trans  &kp SV_COMMA  &kp SV_N7    &kp SV_N8     &kp SV_N9     &kp SV_DOT                      &kp PG_UP   &kp LA(LEFT)  &kp UP      &kp LA(RIGHT)  &kp LG(LEFT)  &kp LG(RIGHT)
-&trans  &kp SV_N0     &kp SV_N4    &kp SV_N5     &kp SV_N6     &kp CLCK                        &kp PG_DN   &kp LEFT      &kp DOWN    &kp RIGHT      &kp DEL       &kp BSPC
-&trans  &kp LG(Z)     &kp SV_N1    &kp SV_N2     &kp SV_N3     &kp LG(C)     &trans    &trans  &kp LG(V)   &kp LG(X)     &trans      &trans         &trans        &trans
-                      &trans       &trans        &trans        &trans        &trans    &trans  &trans      &trans        &trans      &trans
+&trans  &kp SV_EQUAL  &kp SV_FSLH  &kp SV_ASTRK  &kp SV_MINUS  &kp SV_PLUS                     &not_equal  &arrow_thin  &arrow_fat  &trans        &trans        &trans
+&trans  &kp SV_COMMA  &kp SV_N7    &kp SV_N8     &kp SV_N9     &kp SV_DOT                      &kp HOME    &kp PG_UP    &kp PG_DN   &kp END       &kp LA(LEFT)  &kp LA(RIGHT)
+&trans  &kp SV_N0     &kp SV_N4    &kp SV_N5     &kp SV_N6     &kp CLCK                        &kp LEFT    &kp DOWN     &kp UP      &kp RIGHT     &kp DEL       &kp BSPC
+&trans  &kp LG(Z)     &kp SV_N1    &kp SV_N2     &kp SV_N3     &kp LG(C)     &trans    &trans  &kp LG(V)   &kp LG(X)    &trans      &trans        &trans        &trans
+                      &trans       &trans        &trans        &trans        &trans    &trans  &trans      &trans       &trans        &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
