@@ -47,6 +47,35 @@
             bindings = <&kp ESCAPE>;
             key-positions = <25 41>;
         };
+
+        // Press Left Shift + Right Shift together for CAPS_WORD (great for SQL / SNAKE_CASE)
+        caps_word_combo {
+            bindings = <&caps>;
+            key-positions = <24 49>;
+        };
+    };
+
+    macros {
+        // -> (Python type hints / R)
+        arrow_thin: arrow_thin {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp SV_MINUS &kp SV_GT>;
+        };
+
+        // => (Arrow functions / Scala / JS)
+        arrow_fat: arrow_fat {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp SV_EQUAL &kp SV_GT>;
+        };
+
+        // != (SQL / Python not-equal)
+        not_equal: not_equal {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp SV_EXCL &kp SV_EQUAL>;
+        };
     };
 
     behaviors {
@@ -54,7 +83,7 @@
             compatible = "zmk,behavior-caps-word";
             label = "CAPS";
             #binding-cells = <0>;
-            continue-list = <SV_POUND SV_MINUS BACKSPACE SV_UNDER>;
+            continue-list = <POUND MINUS BACKSPACE UNDERSCORE>;
         };
     };
 
@@ -62,7 +91,7 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            display-name = "BaSV";
+            display-name = "Base";
 
             // ------------------------------------------------------------------------------------------------------------
             // |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   +   |
@@ -72,10 +101,10 @@
             //               | CTRL| ALT  | CMD  | LOWER|  SPACE |  | ENTER | RAISE| CMD   | ALT   | BSPC |
 
             bindings = <
-&gresc            &kp SV_N1  &kp SV_N2  &kp SV_N3  &kp SV_N4  &kp SV_N5                                     &kp SV_N6  &kp SV_N7  &kp SV_N8     &kp SV_N9    &kp SV_N0     &kp SV_PLUS
-&kp TAB           &kp SV_Q   &kp SV_W   &kp SV_E   &kp SV_R   &kp SV_T                                      &kp SV_Y   &kp SV_U   &kp SV_I      &kp SV_O     &kp SV_P      &kp SV_ARING
-&kp LEFT_SHIFT    &kp SV_A   &kp SV_S   &kp SV_D   &kp SV_F   &kp SV_G                                      &kp SV_H   &kp SV_J   &kp SV_K      &kp SV_L     &kp SV_ODIAE  &kp SV_ADIAE
-&kp LEFT_CONTROL  &kp SV_Z   &kp SV_X   &kp SV_C   &kp SV_V   &kp SV_B   &kp C_MUTE    &kp C_PLAY_PAUSE     &kp SV_N   &kp SV_M   &kp SV_COMMA  &kp SV_DOT   &kp SV_MINUS  &kp RSHFT
+&gresc            &kp SV_N1  &kp SV_N2  &kp SV_N3  &kp SV_N4  &kp SV_N5                                     &kp SV_N6  &kp SV_N7  &kp SV_N8     &kp SV_N9    &kp SV_N0        &kp SV_PLUS
+&kp TAB           &kp SV_Q   &kp SV_W   &kp SV_E   &kp SV_R   &kp SV_T                                      &kp SV_Y   &kp SV_U   &kp SV_I      &kp SV_O     &kp SV_P         &kp SV_A_RING
+&kp LEFT_SHIFT    &kp SV_A   &kp SV_S   &kp SV_D   &kp SV_F   &kp SV_G                                      &kp SV_H   &kp SV_J   &kp SV_K      &kp SV_L     &kp SV_O_UMLAUT  &kp SV_A_UMLAUT
+&kp LEFT_CONTROL  &kp SV_Z   &kp SV_X   &kp SV_C   &kp SV_V   &kp SV_B   &kp C_MUTE    &kp C_PLAY_PAUSE     &kp SV_N   &kp SV_M   &kp SV_COMMA  &kp SV_DOT   &kp SV_MINUS     &kp RSHFT
                              &kp LCTRL  &kp LALT   &kp LGUI   &mo LOWER  &kp SPACE     &kp ENTER            &mo RAISE  &kp RGUI   &kp RALT      &kp BSPC
             >;
 
@@ -85,6 +114,7 @@
         lower_layer {
             display-name = "Symbols";
 
+            // Tuned for macOS Swedish layout (@, $, ~, \, |, {, }, [, ] use macOS Option combos)
             // ------------------------------------------------------------------------------------------------------------
             // |  §    |  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
             // |  `    |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |  F12  |
@@ -93,11 +123,11 @@
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&kp SV_SECT   &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                          &kp F6         &kp F7        &kp F8        &kp F9        &kp F10       &kp F11
-&kp SV_GRAVE  &kp SV_EXCL   &kp SV_AT     &kp SV_HASH   &kp SV_DLLR   &kp SV_PRCNT                    &kp SV_CARET   &kp SV_AMPS   &kp SV_ASTRK  &kp SV_LPAR   &kp SV_RPAR   &kp F12
-&kp SV_TILDE  &kp SV_EQUAL  &kp SV_MINUS  &kp SV_PLUS   &kp SV_FSLH   &kp SV_BSLH                     &kp SV_PIPE    &kp SV_LBRC   &kp SV_RBRC   &kp SV_LBKT   &kp SV_RBKT   &kp SV_SQT
-&trans        &kp SV_LT     &kp SV_GT     &kp SV_SEMI   &kp SV_COLON  &kp SV_DQT    &trans    &trans  &kp SV_UNDER   &kp SV_QMARK  &kp SV_LT     &kp SV_GT     &kp SV_FSLH   &kp DELETE
-                            &trans        &trans        &trans        &trans        &trans    &trans  &trans         &trans        &trans        &trans
+&kp GRAVE      &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                          &kp F6         &kp F7         &kp F8         &kp F9         &kp F10       &kp F11
+&kp SV_GRAVE   &kp SV_EXCL   &kp LA(N2)    &kp SV_HASH   &kp LA(N4)    &kp SV_PRCNT                    &kp SV_CARET   &kp SV_AMPS    &kp SV_ASTRK   &kp SV_LPAR    &kp SV_RPAR   &kp F12
+&kp LA(RBKT)   &kp SV_EQUAL  &kp SV_MINUS  &kp SV_PLUS   &kp SV_FSLH   &kp LA(LS(N7))                  &kp LA(N7)     &kp LA(LS(N8)) &kp LA(LS(N9)) &kp LA(N8)     &kp LA(N9)    &kp SV_SQT
+&trans         &kp SV_LT     &kp SV_GT     &kp SV_SEMI   &kp SV_COLON  &kp SV_DQT    &trans    &trans  &kp SV_UNDER   &kp SV_QMARK   &kp SV_LT      &kp SV_GT      &kp SV_FSLH   &kp DELETE
+                             &trans        &trans        &trans        &trans        &trans    &trans  &trans         &trans         &trans         &trans
             >;
 
             sensor-bindings =
@@ -106,21 +136,23 @@
         };
 
         raise_layer {
-            display-name = "Nav";
+            display-name = "NavNum";
 
+            // Left hand: Data-entry Numpad + macOS Undo/Cut/Copy/Paste
+            // Right hand: Word/Line jumps + Vim-style Arrows + Coder macros (->, =>, !=)
             // ------------------------------------------------------------------------------------------------------------
-            // |       |     |     |      |      |      |                   |      |      |       |      |       |       |
-            // |       | INS |PSCR | MENU |      |      |                   | PGUP |      |   ^   |      |       |       |
-            // |       | ALT |CTRL | SHIFT|      | CAPS |                   | PGDN |  <-  |   v   |  ->  |  DEL  | BKSPC |
-            // |       | UNDO| CUT | COPY | PASTE|      |        |  |       |      |      |       |      |       |       |
-            //               |     |      |      |      |        |  |       |      |      |       |      |
+            // |       |  =  |  /  |  *   |  -   |  +   |                   |  !=  |  ->   |  =>   |      |       |       |
+            // |       |  ,  |  7  |  8   |  9   |  .   |                   | PGUP | WRD<- |   ^   | WRD->| HOME  |  END  |
+            // |       |  0  |  4  |  5   |  6   | CAPS |                   | PGDN |  <-   |   v   |  ->  |  DEL  | BKSPC |
+            // |       | UNDO|  1  |  2   |  3   | COPY |        |  |       | PASTE|  CUT  |       |      |       |       |
+            //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&trans  &trans      &trans     &trans       &trans       &trans                      &trans     &trans    &trans    &trans     &trans   &trans
-&trans  &kp INS     &kp PSCRN  &kp K_CMENU  &trans       &trans                      &kp PG_UP  &trans    &kp UP    &trans     &trans   &trans
-&trans  &kp LALT    &kp LCTRL  &kp LSHFT    &trans       &kp CLCK                    &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &kp DEL  &kp BSPC
-&trans  &kp K_UNDO  &kp K_CUT  &kp K_COPY   &kp K_PASTE  &trans    &trans    &trans  &trans     &trans    &trans    &trans     &trans   &trans
-                    &trans     &trans       &trans       &trans    &trans    &trans  &trans     &trans    &trans    &trans
+&trans  &kp SV_EQUAL  &kp SV_FSLH  &kp SV_ASTRK  &kp SV_MINUS  &kp SV_PLUS                     &not_equal  &arrow_thin   &arrow_fat  &trans         &trans        &trans
+&trans  &kp SV_COMMA  &kp SV_N7    &kp SV_N8     &kp SV_N9     &kp SV_DOT                      &kp PG_UP   &kp LA(LEFT)  &kp UP      &kp LA(RIGHT)  &kp LG(LEFT)  &kp LG(RIGHT)
+&trans  &kp SV_N0     &kp SV_N4    &kp SV_N5     &kp SV_N6     &kp CLCK                        &kp PG_DN   &kp LEFT      &kp DOWN    &kp RIGHT      &kp DEL       &kp BSPC
+&trans  &kp LG(Z)     &kp SV_N1    &kp SV_N2     &kp SV_N3     &kp LG(C)     &trans    &trans  &kp LG(V)   &kp LG(X)     &trans      &trans         &trans        &trans
+                      &trans       &trans        &trans        &trans        &trans    &trans  &trans      &trans        &trans      &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -133,7 +165,7 @@
 &bt BT_CLR_ALL     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                  &none  &none  &none  &none  &none  &none
 &ext_power EP_TOG  &none         &none         &none         &none         &studio_unlock                &none  &none  &none  &none  &none  &none
 &none              &none         &none         &none         &none         &none                         &none  &none  &none  &none  &none  &none
-&none              &none         &none         &none         &none         &caps_word    &none    &none  &none  &none  &none  &none  &none  &none
+&none              &none         &none         &none         &none         &caps         &none    &none  &none  &none  &none  &none  &none  &none
                                  &none         &none         &none         &none         &none    &none  &none  &none  &none  &none
             >;
         };
