@@ -54,7 +54,7 @@
             compatible = "zmk,behavior-caps-word";
             label = "CAPS";
             #binding-cells = <0>;
-            continue-list = <SE_POUND SE_MINUS BACKSPACE SE_UNDER>;
+            continue-list = <SV_POUND SV_MINUS BACKSPACE SV_UNDER>;
         };
     };
 
@@ -62,7 +62,7 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            display-name = "Base";
+            display-name = "BaSV";
 
             // ------------------------------------------------------------------------------------------------------------
             // |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   +   |
@@ -72,10 +72,10 @@
             //               | CTRL| ALT  | CMD  | LOWER|  SPACE |  | ENTER | RAISE| CMD   | ALT   | BSPC |
 
             bindings = <
-&gresc            &kp SE_N1  &kp SE_N2  &kp SE_N3  &kp SE_N4  &kp SE_N5                                     &kp SE_N6  &kp SE_N7  &kp SE_N8     &kp SE_N9    &kp SE_N0     &kp SE_PLUS
-&kp TAB           &kp SE_Q   &kp SE_W   &kp SE_E   &kp SE_R   &kp SE_T                                      &kp SE_Y   &kp SE_U   &kp SE_I      &kp SE_O     &kp SE_P      &kp SE_ARING
-&kp LEFT_SHIFT    &kp SE_A   &kp SE_S   &kp SE_D   &kp SE_F   &kp SE_G                                      &kp SE_H   &kp SE_J   &kp SE_K      &kp SE_L     &kp SE_ODIAE  &kp SE_ADIAE
-&kp LEFT_CONTROL  &kp SE_Z   &kp SE_X   &kp SE_C   &kp SE_V   &kp SE_B   &kp C_MUTE    &kp C_PLAY_PAUSE     &kp SE_N   &kp SE_M   &kp SE_COMMA  &kp SE_DOT   &kp SE_MINUS  &kp RSHFT
+&gresc            &kp SV_N1  &kp SV_N2  &kp SV_N3  &kp SV_N4  &kp SV_N5                                     &kp SV_N6  &kp SV_N7  &kp SV_N8     &kp SV_N9    &kp SV_N0     &kp SV_PLUS
+&kp TAB           &kp SV_Q   &kp SV_W   &kp SV_E   &kp SV_R   &kp SV_T                                      &kp SV_Y   &kp SV_U   &kp SV_I      &kp SV_O     &kp SV_P      &kp SV_ARING
+&kp LEFT_SHIFT    &kp SV_A   &kp SV_S   &kp SV_D   &kp SV_F   &kp SV_G                                      &kp SV_H   &kp SV_J   &kp SV_K      &kp SV_L     &kp SV_ODIAE  &kp SV_ADIAE
+&kp LEFT_CONTROL  &kp SV_Z   &kp SV_X   &kp SV_C   &kp SV_V   &kp SV_B   &kp C_MUTE    &kp C_PLAY_PAUSE     &kp SV_N   &kp SV_M   &kp SV_COMMA  &kp SV_DOT   &kp SV_MINUS  &kp RSHFT
                              &kp LCTRL  &kp LALT   &kp LGUI   &mo LOWER  &kp SPACE     &kp ENTER            &mo RAISE  &kp RGUI   &kp RALT      &kp BSPC
             >;
 
@@ -93,10 +93,10 @@
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&kp SE_SECT   &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                          &kp F6         &kp F7        &kp F8        &kp F9        &kp F10       &kp F11
-&kp SE_GRAVE  &kp SE_EXCL   &kp SE_AT     &kp SE_HASH   &kp SE_DLLR   &kp SE_PRCNT                    &kp SE_CARET   &kp SE_AMPS   &kp SE_ASTRK  &kp SE_LPAR   &kp SE_RPAR   &kp F12
-&kp SE_TILDE  &kp SE_EQUAL  &kp SE_MINUS  &kp SE_PLUS   &kp SE_FSLH   &kp SE_BSLH                     &kp SE_PIPE    &kp SE_LBRC   &kp SE_RBRC   &kp SE_LBKT   &kp SE_RBKT   &kp SE_SQT
-&trans        &kp SE_LT     &kp SE_GT     &kp SE_SEMI   &kp SE_COLON  &kp SE_DQT    &trans    &trans  &kp SE_UNDER   &kp SE_QMARK  &kp SE_LT     &kp SE_GT     &kp SE_FSLH   &kp DELETE
+&kp SV_SECT   &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                          &kp F6         &kp F7        &kp F8        &kp F9        &kp F10       &kp F11
+&kp SV_GRAVE  &kp SV_EXCL   &kp SV_AT     &kp SV_HASH   &kp SV_DLLR   &kp SV_PRCNT                    &kp SV_CARET   &kp SV_AMPS   &kp SV_ASTRK  &kp SV_LPAR   &kp SV_RPAR   &kp F12
+&kp SV_TILDE  &kp SV_EQUAL  &kp SV_MINUS  &kp SV_PLUS   &kp SV_FSLH   &kp SV_BSLH                     &kp SV_PIPE    &kp SV_LBRC   &kp SV_RBRC   &kp SV_LBKT   &kp SV_RBKT   &kp SV_SQT
+&trans        &kp SV_LT     &kp SV_GT     &kp SV_SEMI   &kp SV_COLON  &kp SV_DQT    &trans    &trans  &kp SV_UNDER   &kp SV_QMARK  &kp SV_LT     &kp SV_GT     &kp SV_FSLH   &kp DELETE
                             &trans        &trans        &trans        &trans        &trans    &trans  &trans         &trans        &trans        &trans
             >;
 
