@@ -69,14 +69,14 @@
         arrow_thin: arrow_thin {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp SV_MINUS &kp SV_GT>;
+            bindings = <&kp SV_MINUS &kp LS(GRAVE)>;
         };
 
         // => (Arrow functions / JS / Scala)
         arrow_fat: arrow_fat {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp SV_EQUAL &kp SV_GT>;
+            bindings = <&kp SV_EQUAL &kp LS(GRAVE)>;
         };
 
         // != (SQL / Python / Lua inequality)
@@ -127,6 +127,7 @@
             display-name = "Symbols";
 
             // Tuned for macOS Swedish + Neovim:
+            // - GRAVE -> < | LS(GRAVE) -> > | NUBS -> §/°
             // - Easy ':' (COLON) and '/' (FSLH) on home row for :w / :q / search
             // - macOS Option combos for @, $, ~, \, |, {, }, [, ]
             // ------------------------------------------------------------------------------------------------------------
@@ -137,10 +138,10 @@
             //               |     |      |      |      |        |  |       |      |       |       |      |
 
             bindings = <
-&kp GRAVE      &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                          &kp F6         &kp F7         &kp F8         &kp F9         &kp F10       &kp F11
+&kp NUBS       &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                          &kp F6         &kp F7         &kp F8         &kp F9         &kp F10       &kp F11
 &kp SV_GRAVE   &kp SV_EXCL   &kp LA(N2)    &kp SV_HASH   &kp LA(N4)    &kp SV_PRCNT                    &kp SV_CARET   &kp SV_AMPS    &kp SV_ASTRK   &kp SV_LPAR    &kp SV_RPAR   &kp F12
 &kp LA(RBKT)   &kp SV_EQUAL  &kp SV_MINUS  &kp SV_PLUS   &kp SV_FSLH   &kp LA(LS(N7))                  &kp LA(N7)     &kp LA(LS(N8)) &kp LA(LS(N9)) &kp LA(N8)     &kp LA(N9)    &kp SV_COLON
-&trans         &kp SV_LT     &kp SV_GT     &kp SV_SEMI   &kp SV_COLON  &kp SV_DQT    &trans    &trans  &kp SV_UNDER   &kp SV_QMARK   &kp SV_LT      &kp SV_GT      &kp SV_SQT    &kp DELETE
+&trans         &kp GRAVE     &kp LS(GRAVE) &kp SV_SEMI   &kp SV_COLON  &kp SV_DQT    &trans    &trans  &kp SV_UNDER   &kp SV_QMARK   &kp GRAVE      &kp LS(GRAVE)  &kp SV_SQT    &kp DELETE
                              &trans        &trans        &trans        &trans        &trans    &trans  &trans         &trans         &trans         &trans
             >;
 
